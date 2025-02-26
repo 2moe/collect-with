@@ -167,7 +167,7 @@ If you need an exact capacity size, please use the `.collect_with_exact()` or `.
 
 ### Core Components
 
-- `ExtendWithCapacity`: Base trait for capacity-aware
+- `ExtendWithCapacity`: A trait for collections that can be pre-allocated with specific capacity and extended with elements.
 - `CollectWith`/`CollectWithCapacity`: Primary collection traits
 
 ### Optional Components
@@ -175,4 +175,4 @@ If you need an exact capacity size, please use the `.collect_with_exact()` or `.
 - `CollectVector` (feature = "collect_vec"): Specialized Vec collection methods
 - `CollectAHash` (feature = "ahash"): AHash-based collection support
 - `CollectIndex` (feature = "indexmap"): IndexMap/IndexSet collection support
-- `TryExtract`/`TryCollectWith` (feature = "try"): Error-aware trait
+- `TryExtract`/`TryCollectWith` (feature = "try")

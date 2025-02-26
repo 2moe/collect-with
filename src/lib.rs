@@ -126,7 +126,7 @@ If you need an exact capacity size, please use the `.collect_with_exact()` or `.
 
 ### Core Components
 
-- `ExtendWithCapacity`: Base trait for capacity-aware
+- `ExtendWithCapacity`: Base trait for capacity-aware collections
 - `CollectWith`/`CollectWithCapacity`: Primary collection traits
 
 ### Optional Components
