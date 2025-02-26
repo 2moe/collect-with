@@ -68,19 +68,23 @@ where
 // Hash{Map, Set}
 
 #[cfg(feature = "std")]
-impl<K: Eq + core::hash::Hash, V> ExtendWithCapacity<(K, V)>
-  for std::collections::HashMap<K, V>
+impl<K, V, S> ExtendWithCapacity<(K, V)> for std::collections::HashMap<K, V, S>
+where
+  K: Eq + core::hash::Hash,
+  S: core::hash::BuildHasher + Default,
 {
   fn with_capacity(capacity: usize) -> Self {
-    std::collections::HashMap::with_capacity(capacity)
+    std::collections::HashMap::with_capacity_and_hasher(capacity, S::default())
   }
 }
 #[cfg(feature = "std")]
-impl<K: Eq + core::hash::Hash> ExtendWithCapacity<K>
-  for std::collections::HashSet<K>
+impl<K, S> ExtendWithCapacity<K> for std::collections::HashSet<K, S>
+where
+  K: Eq + core::hash::Hash,
+  S: core::hash::BuildHasher + Default,
 {
   fn with_capacity(capacity: usize) -> Self {
-    std::collections::HashSet::with_capacity(capacity)
+    std::collections::HashSet::with_capacity_and_hasher(capacity, S::default())
   }
 }
 

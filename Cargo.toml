@@ -1,6 +1,6 @@
 [package]
 name = "collect-with"
-version = "0.0.0"
+version = "0.0.1"
 edition = "2024"
 license = "Apache-2.0"
 authors = ["Moe <m@tmoe.me>"]
@@ -15,9 +15,8 @@ A utility crate for enhanced collection operations with capacity control.
 """
 
 [features]
-default = []
-# default = ["try", "collect_vec"]
-# default = ["collect_vec", "try"]
+default = ["try", "collect_vec"]
+# default = ["all"]
 # -----
 std = []
 # -----
