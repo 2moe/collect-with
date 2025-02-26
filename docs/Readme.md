@@ -6,7 +6,7 @@ A utility crate for enhanced collection operations with capacity control.
 
 [![Documentation](https://docs.rs/collect-with/badge.svg)](https://docs.rs/collect-with)
 
-[![Apache-2 licensed](https://img.shields.io/crates/l/collect-with.svg)](./License)
+[![Apache-2 licensed](https://img.shields.io/crates/l/collect-with.svg)](../License)
 
 - [Overview](#overview)
 - [Features](#features)
