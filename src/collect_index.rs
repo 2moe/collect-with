@@ -28,10 +28,41 @@ pub trait CollectIndex: Iterator {
   /// assert_eq!(map.get_index(2), Some((&'c', &102)));
   /// assert_eq!(map.capacity(), 10);
   /// ```
+  #[cfg(not(feature = "ahash"))]
   fn collect_indexmap_with<K, V>(
     self,
     capacity: impl FnOnce(usize) -> usize,
   ) -> IndexMap<K, V>
+  where
+    Self: Sized + Iterator<Item = (K, V)>,
+    K: Hash + Eq,
+  {
+    self.collect_with(capacity)
+  }
+
+  /// Collects items into an `IndexMap<K, V, ahash::RandomState>` with a
+  /// specified capacity.
+  ///
+  /// ## Example
+  ///
+  /// ```
+  /// use indexmap::IndexMap;
+  /// use collect_with::CollectIndex;
+  ///
+  /// let map = ('a'..='i')
+  ///   .zip(100..=109)
+  ///   .collect_indexmap_with(|u| u + 1); // u + 1 => 9 + 1 = 10
+  ///
+  /// assert_eq!(map.get(&'a'), Some(&100));
+  /// assert_eq!(map.get_index(0), Some((&'a', &100)));
+  /// assert_eq!(map.get_index(2), Some((&'c', &102)));
+  /// assert_eq!(map.capacity(), 10);
+  /// ```
+  #[cfg(feature = "ahash")]
+  fn collect_indexmap_with<K, V>(
+    self,
+    capacity: impl FnOnce(usize) -> usize,
+  ) -> IndexMap<K, V, ahash::RandomState>
   where
     Self: Sized + Iterator<Item = (K, V)>,
     K: Hash + Eq,
@@ -81,10 +112,39 @@ pub trait CollectIndex: Iterator {
   /// assert_eq!(set.len(), 3);
   /// assert!(set.capacity() >= 3);
   /// ```
+  #[cfg(not(feature = "ahash"))]
   fn collect_indexset_with<K>(
     self,
     capacity: impl FnOnce(usize) -> usize,
   ) -> IndexSet<K>
+  where
+    Self: Sized + Iterator<Item = K>,
+    K: Hash + Eq,
+  {
+    self.collect_with(capacity)
+  }
+
+  /// Collects items into an `IndexSet<K, ahash::RandomState>` with specified
+  /// capacity.
+  ///
+  /// Preserves insertion order and maintains unique elements.
+  ///
+  /// # Example
+  ///
+  /// ```
+  /// use indexmap::IndexSet;
+  /// use collect_with::CollectIndex;
+  ///
+  /// let set = (0..3)
+  ///     .collect_indexset_with(|size_hint| size_hint + 2);
+  /// assert_eq!(set.len(), 3);
+  /// assert!(set.capacity() >= 3);
+  /// ```
+  #[cfg(feature = "ahash")]
+  fn collect_indexset_with<K>(
+    self,
+    capacity: impl FnOnce(usize) -> usize,
+  ) -> IndexSet<K, ahash::RandomState>
   where
     Self: Sized + Iterator<Item = K>,
     K: Hash + Eq,

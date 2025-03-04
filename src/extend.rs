@@ -117,17 +117,23 @@ impl<T: AsRef<std::path::Path>> ExtendWithCapacity<T> for std::path::PathBuf {
 // index{map, set}
 
 #[cfg(feature = "indexmap")]
-impl<K: Eq + core::hash::Hash, V> ExtendWithCapacity<(K, V)>
-  for indexmap::IndexMap<K, V>
+impl<K, V, S> ExtendWithCapacity<(K, V)> for indexmap::IndexMap<K, V, S>
+where
+  K: Eq + core::hash::Hash,
+  S: core::hash::BuildHasher + Default,
 {
   fn with_capacity(capacity: usize) -> Self {
-    indexmap::IndexMap::with_capacity(capacity)
+    indexmap::IndexMap::with_capacity_and_hasher(capacity, S::default())
   }
 }
 
 #[cfg(feature = "indexmap")]
-impl<K: Eq + core::hash::Hash> ExtendWithCapacity<K> for indexmap::IndexSet<K> {
+impl<K, S> ExtendWithCapacity<K> for indexmap::IndexSet<K, S>
+where
+  K: Eq + core::hash::Hash,
+  S: core::hash::BuildHasher + Default,
+{
   fn with_capacity(capacity: usize) -> Self {
-    indexmap::IndexSet::with_capacity(capacity)
+    indexmap::IndexSet::with_capacity_and_hasher(capacity, S::default())
   }
 }
